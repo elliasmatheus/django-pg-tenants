@@ -3,7 +3,9 @@ from tenant_schemas.middleware import TenantMiddleware
 
 
 class TenantRequestFactory(RequestFactory):
-    tm = TenantMiddleware()
+    def dummy_get_response(request):  # pragma: no cover
+            return None
+    tm = TenantMiddleware(dummy_get_response)
 
     def __init__(self, tenant, **defaults):
         super(TenantRequestFactory, self).__init__(**defaults)
