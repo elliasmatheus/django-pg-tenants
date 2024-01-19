@@ -1,10 +1,10 @@
 from django.test import RequestFactory, Client
 from tenant_schemas.middleware import TenantMiddleware
 
+def dummy_get_response(request):  # pragma: no cover
+        return None
 
 class TenantRequestFactory(RequestFactory):
-    def dummy_get_response(request):  # pragma: no cover
-            return None
     tm = TenantMiddleware(dummy_get_response)
 
     def __init__(self, tenant, **defaults):
@@ -44,7 +44,7 @@ class TenantRequestFactory(RequestFactory):
 
 
 class TenantClient(Client):
-    tm = TenantMiddleware()
+    tm = TenantMiddleware(dummy_get_response)
 
     def __init__(self, tenant, enforce_csrf_checks=False, **defaults):
         super(TenantClient, self).__init__(enforce_csrf_checks, **defaults)
